@@ -92,36 +92,6 @@ namespace GraphicsMatrixApp {
       matrix.Matrix = matrixOut;
     }
 
-    public void Translate(double x, double y, double z) {
-      int col;
-      for (col = 0; col < this.Cols; col++) {
-        this.Matrix[0,col] += x;
-        this.Matrix[1,col] += y;
-        this.Matrix[2,col] += z;
-      }
-    }
-
-    public void Rotate(GraphicsMatrix rotationMatrix) {
-      rotationMatrix.Multiply(this);
-    }
-
-    public void Rotate(double thetaX, double thetaY, double thetaZ) {
-      GraphicsMatrix rotationMatrix = GraphicsMatrix.GetRotationMatrix(thetaX, thetaY, thetaZ);
-      this.Rotate(rotationMatrix);
-    }
-
-    public void Rotate(double x, double y, double z, GraphicsMatrix rotationMatrix) {
-      this.Translate(-x, -y, -z);
-      this.Rotate(rotationMatrix);
-      this.Translate(x, y, z);
-    }
-
-    public void Rotate(double x, double y, double z, double thetaX, double thetaY, double thetaZ) {
-      this.Translate(-x, -y, -z);
-      this.Rotate(thetaX, thetaY, thetaZ);
-      this.Translate(x, y, z);
-    }
-
     public double[] GetPoint(int index) {
       double[] point = new double[3];
       point[0] = this.Matrix[0,index];
@@ -142,35 +112,57 @@ namespace GraphicsMatrixApp {
     }
 
     // theta is in degrees
-    public static GraphicsMatrix GetRotationMatrix(double thetaX, double thetaY, double thetaZ) {
-      double c = Math.PI / 180;
-      double radX = c * thetaX;
-      double radY = c * thetaY;
-      double radZ = c * thetaZ;
+    public static GraphicsMatrix GetXRotationMatrix(double thetaX) {
+      double radX = Math.PI / 180 * thetaX;
       GraphicsMatrix x = new GraphicsMatrix(new double[4,4] {
         {1, 0, 0, 0},
-        {0, Math.Cos(radX), Math.Sin(radX), 0},
-        {0, -1 * Math.Sin(radX), Math.Cos(radX), 0},
+        {0, Math.Cos(radX), -1 * Math.Sin(radX), 0},
+        {0, Math.Sin(radX), Math.Cos(radX), 0},
         {0, 0, 0, 1}
       });
+      return x;
+    }
 
+    public static GraphicsMatrix GetYRotationMatrix(double thetaY) {
+      double radY = Math.PI / 180 * thetaY;
       GraphicsMatrix y = new GraphicsMatrix(new double [4,4] {
         {Math.Cos(radY), 0, Math.Sin(radY), 0},
         {0, 1, 0, 0},
         {-1 * Math.Sin(radY), 0, Math.Cos(radY), 0},
         {0, 0, 0, 1}
       });
+      return y;
+    }
 
+    public static GraphicsMatrix GetZRotationMatrix(double thetaZ) {
+      double radZ = Math.PI / 180 * thetaZ;
       GraphicsMatrix z = new GraphicsMatrix(new double[4,4] {
-        {Math.Cos(radZ), Math.Sin(radZ), 0, 0},
-        {-1 * Math.Sin(radZ), Math.Cos(radZ), 0, 0},
+        {Math.Cos(radZ), -1 * Math.Sin(radZ), 0, 0},
+        {Math.Sin(radZ), Math.Cos(radZ), 0, 0},
         {0, 0, 1, 0},
         {0, 0, 0, 1}
       });
+      return z;
+    }
 
-      y.Multiply(x);
-      z.Multiply(x);
-      return x;
+    public static GraphicsMatrix GetScaleMatrix(double kx, double ky, double kz) {
+      GraphicsMatrix s = new GraphicsMatrix(new double[4,4] {
+        {kx, 0, 0, 0},
+        {0, ky, 0, 0},
+        {0, 0, kz, 0},
+        {0, 0, 0, 1}
+      });
+      return s;
+    }
+
+    public static GraphicsMatrix GetTranslationMatrix(double dx, double dy, double dz) {
+      GraphicsMatrix t = new GraphicsMatrix(new double[4,4] {
+        {1, 0, 0, dx},
+        {0, 1, 0, dy},
+        {0, 0, 1, dz},
+        {0, 0, 0, 1}
+      });
+      return t;
     }
 
 

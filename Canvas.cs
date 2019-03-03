@@ -79,23 +79,20 @@ namespace CanvasApp {
       }
     } // end WriteFile method
 
-    public void DisplayCanvas() {
+    public void Display() {
       try {
         this.WriteFile("beans.ppm");
-        var proc = new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
+        var proc = new Process {
+            StartInfo = new ProcessStartInfo {
                 FileName = "/bin/bash",
-                Arguments = "-c \"display beans.ppm\"",
+                Arguments = "-c \"open beans.ppm\"",
                 UseShellExecute = false,
                 CreateNoWindow = true
             }
         };
-
         proc.Start();
         proc.WaitForExit();
-        // Thread.Sleep(1000);
+        Thread.Sleep(1000);
         File.Delete("./beans.ppm");
       }
       catch (Exception e) {
@@ -208,6 +205,33 @@ namespace CanvasApp {
       }
     }
 
+    public void Clear() {
+      int x, y, z;
+      for (y = 0; y < 500; y++) {
+        for (x = 0; x < 500; x++) {
+          for (z = 0; z < 3; z++) {
+            this.Grid[x,y,z] = 255;
+          }
+        }
+      }
+    }
+
 
   } // end Canvas class
 } // end CanvasApp namespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// beans
