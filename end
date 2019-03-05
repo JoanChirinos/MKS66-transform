@@ -3,4 +3,4 @@ scale
 move
 100 150 0
 apply
-display
+draw

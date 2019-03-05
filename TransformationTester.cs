@@ -21,7 +21,6 @@ namespace TransformationTesterApp {
               GraphicsParser.ParseLines(filecontents, masterTransformationMatrix, edgeMatrix, c);
             }
             int dx = (Math.Abs(frame / 2 - 2) - 2);
-            Console.WriteLine(dx);
             masterTransformationMatrix = GraphicsMatrix.GetTranslationMatrix(dx, 0, 0);
             /*
             display
@@ -47,9 +46,7 @@ namespace TransformationTesterApp {
             c.WriteFile(String.Format("{0}.ppm", frame));
           }
           catch (Exception e) {
-            Console.Write("Script file could not be read:\n\t");
             Console.WriteLine(e.Message);
-            Console.WriteLine("Name your script file \"script\"");
             throw;
           }
         }
