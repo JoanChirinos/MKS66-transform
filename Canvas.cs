@@ -120,9 +120,11 @@ namespace CanvasApp {
     }
 
     public void Plot(int x, int y, int[] color) {
-      Grid[y,x,0] = color[0];
-      Grid[y,x,1] = color[1];
-      Grid[y,x,2] = color[2];
+      if (x >= 0 && y >= 0 && x < this.Width && y < this.Height) {
+        Grid[y,x,0] = color[0];
+        Grid[y,x,1] = color[1];
+        Grid[y,x,2] = color[2];
+      }
     } // end Plot method
 
     // draw line given 2 points: [x0, y0], [x1, y1]

@@ -94,6 +94,7 @@ namespace GraphicsMatrixApp {
         }
       }
       matrix.Matrix = matrixOut;
+      matrix.MaxCols = matrix.Cols;
     }
 
     public double[] GetPoint(int index) {

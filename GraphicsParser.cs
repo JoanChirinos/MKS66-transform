@@ -35,6 +35,7 @@ namespace GraphicsParserApp {
           edgeMatrix.AddEdge(Convert.ToDouble(args[0]), Convert.ToDouble(args[1]), Convert.ToDouble(args[2]), Convert.ToDouble(args[3]), Convert.ToDouble(args[4]), Convert.ToDouble(args[5]));
         }
         else if (command == "scale") {
+          Console.WriteLine("scaling");
           i++;
           string[] args = lines[i].Split(' ');
           GraphicsMatrix scaleMatrix = GraphicsMatrix.GetScaleMatrix(Convert.ToDouble(args[0]), Convert.ToDouble(args[1]), Convert.ToDouble(args[2]));
