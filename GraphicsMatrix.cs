@@ -24,9 +24,6 @@ namespace GraphicsMatrixApp {
     }
 
     public GraphicsMatrix(double[,] matrix) {
-      if (matrix.GetLength(0) != 4) {
-        throw new System.ArgumentException("Matrix must be 4xN!");
-      }
       this.Matrix = matrix;
       this.Cols = matrix.GetLength(1);
       this.MaxCols = matrix.GetLength(1);
@@ -34,7 +31,15 @@ namespace GraphicsMatrixApp {
 
     public void Expand() {
       // doubles in size
-      double[,] newMatrix = new double[4,this.MaxCols * 2];
+      double[,] newMatrix;
+      if (this.MaxCols == 0) {
+        newMatrix = new double[4,1];
+        this.MaxCols = 1;
+      }
+      else {
+        newMatrix = new double[4,this.MaxCols * 2];
+        this.MaxCols *= 2;
+      }
       int x, y;
       for (x = 0; x < 4; x++) {
         for (y = 0; y < this.Cols; y++) {
@@ -42,12 +47,11 @@ namespace GraphicsMatrixApp {
         }
       }
       this.Matrix = newMatrix;
-      this.MaxCols *= 2;
     }
 
     public void AddPoint(double x, double y, double z) {
       int col = this.Cols;
-      if (this.Cols == this.MaxCols) {
+      if (this.Cols >= this.MaxCols) {
         this.Expand();
       }
       this.Matrix[0,col] = x;
@@ -83,7 +87,7 @@ namespace GraphicsMatrixApp {
       for (row = 0; row < 4; row++) {
         for (col = 0; col < matrix.Cols; col++) {
           double sum = 0;
-          for (index = 0; index < this.Cols; index++) {
+          for (index = 0; index < 4; index++) {
             sum += this.Matrix[row, index] * matrix.Matrix[index, col];
           }
           matrixOut[row, col] = sum;

@@ -19,13 +19,13 @@ namespace GraphicsParserApp {
         }
         else if (command == "display") {
           c.Clear();
-          c.DrawLines(edgeMatrix);
+          c.DrawLines(edgeMatrix, new int[3] {250, 163, 232});
           c.Display();
         }
         else if (command == "save") {
           i++;
           c.Clear();
-          c.DrawLines(edgeMatrix);
+          c.DrawLines(edgeMatrix, new int[3] {250, 163, 232});
           string filename = lines[i];
           c.WriteFile(filename);
         }

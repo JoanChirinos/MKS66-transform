@@ -18,6 +18,7 @@ namespace CanvasApp {
     public int[,,] Grid { get; }
     public int Width { get; }
     public int Height { get; }
+    public int[] color { get; }
 
     /* constructors */
     public Canvas() {
@@ -25,6 +26,7 @@ namespace CanvasApp {
       this.Width = 500;
       this.Height = 500;
       this.Grid = new int[500,500,3];
+      this.color = new int[3] {255, 255, 255};
       // default background color is white
       int x, y, z;
       for (y = 0; y < 500; y++) {
@@ -35,10 +37,27 @@ namespace CanvasApp {
         }
       }
     }
+
+    public Canvas(int[] color) {
+      Width = 500;
+      Height = 500;
+      Grid = new int[500,500,3];
+      this.color = color;
+      int x, y, z;
+      for (y = 0; y < 500; y++) {
+        for (x = 0; x < 500; x++) {
+          for (z = 0; z < 3; z++) {
+            this.Grid[x,y,z] = color[z];
+          }
+        }
+      }
+    }
+
     public Canvas(int w, int h) {
       Width = w;
       Height = h;
       Grid = new int[w,h,3];
+      this.color = new int[3] {255, 255, 255};
       // default background color is white
       int x, y, z;
       for (y = 0; y < h; y++) {
@@ -53,7 +72,7 @@ namespace CanvasApp {
       Width = w;
       Height = h;
       Grid = new int[w,h,3];
-      // default background color is white
+      this.color = color;
       int x, y, z;
       for (y = 0; y < h; y++) {
         for (x = 0; x < w; x++) {
@@ -205,12 +224,19 @@ namespace CanvasApp {
       }
     }
 
+    public void DrawLines(GraphicsMatrix matrix, int[] color) {
+      int i;
+      for (i = 0; i < matrix.Cols - 1; i += 2) {
+        this.DrawLine(matrix.GetPoint(i), matrix.GetPoint(i + 1), color);
+      }
+    }
+
     public void Clear() {
       int x, y, z;
       for (y = 0; y < 500; y++) {
         for (x = 0; x < 500; x++) {
           for (z = 0; z < 3; z++) {
-            this.Grid[x,y,z] = 255;
+            this.Grid[x,y,z] = this.color[z];
           }
         }
       }
